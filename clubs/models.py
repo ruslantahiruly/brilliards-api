@@ -51,7 +51,7 @@ class Club(models.Model):
     MASTERCARD = 'MC'
     MIR = 'MR'
     PAYMENT_METHODS_CHOICES = (
-        (CASH, 'наличный расчет'),
+        (CASH, 'Наличный расчет'),
         (VISA, 'VISA'),
         (MASTERCARD, 'MasterCard'),
         (MIR, 'МИР'),
@@ -71,7 +71,7 @@ class Club(models.Model):
     region = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name=_('region'))
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name=_('city'))
     name = models.CharField(_('name'), max_length=50)
-    code_number = models.PositiveIntegerField('номер клуба', default=0)
+    code_number = models.PositiveIntegerField(_('club number'), default=0)
     slug = models.SlugField(_('slug'), max_length=50, db_index=True)
     district = models.CharField(_('district'), max_length=50, blank=True)
     metro = models.CharField(_('metro'), max_length=50, blank=True)
@@ -85,6 +85,8 @@ class Club(models.Model):
     website = models.URLField(_('website'), blank=True)
     payment_methods = MultiSelectField(_('payment methods'), max_length=50, choices=PAYMENT_METHODS_CHOICES, default=CASH)
     school = models.BooleanField(_('school'), default=False)
+    tournaments = models.BooleanField(_('tournaments'), default=False)
+    # shop = models.BooleanField(_('shop'), default=False)
     is_active = models.BooleanField(_('club is active'), default=False)
     is_open = models.BooleanField(_('club is open'), default=True)
     is_verified = models.BooleanField(_('club is verified'), default=False)
@@ -120,6 +122,7 @@ class SocialNetwork(models.Model):
     TWITTER = 'TW'
     TELEGRAM = 'TM'
     INSTAGRAM = 'IN'
+    YOUTUBE = 'UT'
     NAME_CHOICES = (
         (VK, 'Вконтакте'),
         (OK, 'Одноклассники'),
@@ -127,6 +130,7 @@ class SocialNetwork(models.Model):
         (TWITTER, 'Twitter'),
         (TELEGRAM, 'Telegram'),
         (INSTAGRAM, 'Instagram'),
+        (YOUTUBE, 'YouTube'),
     )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), related_name='social_networks')
     name = models.CharField(_('name'), max_length=5, choices=NAME_CHOICES)
