@@ -288,8 +288,10 @@ class Price(models.Model):
 
 class Promotion(models.Model):
     DISCOUNT = 'DC'
+    OTHER = 'OT'
     TYPE_CHOICES = (
-        (DISCOUNT, 'скидка'),
+        (DISCOUNT, 'Скидка'),
+        (OTHER, 'Остальные'),
     )
     MONDAY = 'MO'
     TUESDAY = 'TU'
@@ -307,16 +309,30 @@ class Promotion(models.Model):
         (SATURDAY, 'суббота'),
         (SUNDAY, 'воскресенье'),
     )
+    ALL = 'AL'
+    RETIREE = 'RT'
+    PUPIL = 'PP'
+    STUDENT = 'ST'
+    BIRTHDAY = 'BD'
+    CUSTOMER_CATEGORIES_CHOICES = (
+        (ALL, 'Все'),
+        (RETIREE, 'Пенсионер'),
+        (PUPIL, 'Школьник'),
+        (STUDENT, 'Студент'),
+        (BIRTHDAY, 'Именинник'),
+    )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), null=True, blank=True)
     tables = models.ManyToManyField(Table, verbose_name=_('tables'))
     name = models.CharField(_('promotion'), max_length=50)
+    type = models.CharField(_('type'), max_length=5, choices=TYPE_CHOICES, default=DISCOUNT)
+    customer_categories = MultiSelectField(_('customer categories'), max_length=20, choices=CUSTOMER_CATEGORIES_CHOICES, default=ALL)
     is_active = models.BooleanField('промоакция активна', default=True)
     is_perpetual = models.BooleanField('промоакция бессрочная', default=True)
-    date_from = models.DateTimeField('date from', blank=True)
-    date_to = models.DateTimeField('date to', blank=True)
+    date_from = models.DateTimeField('date from', null=True, blank=True)
+    date_to = models.DateTimeField('date to', null=True, blank=True)
     days_of_the_week = MultiSelectField(_('days of the week'), max_length=20, choices=DAYS_OF_THE_WEEK_CHOICES)
-    time_from = models.TimeField(_('time from'), blank=True)
-    time_to = models.TimeField(_('time to'), blank=True)
+    time_from = models.TimeField(_('time from'), null=True, blank=True)
+    time_to = models.TimeField(_('time to'), null=True, blank=True)
     discount = models.PositiveSmallIntegerField(_('discount'), default=0)
     promo_code = models.CharField(_('promo code'), max_length=50, blank=True)
     created = models.DateField(auto_now_add=True)

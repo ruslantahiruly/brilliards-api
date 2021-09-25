@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Club, City, WorkingTime, Photo, Hall, Game, Table, Price, SocialNetwork
+from .models import Club, City, WorkingTime, Photo, Hall, Game, Table, Price, SocialNetwork, Promotion
 
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,6 +50,11 @@ class PriceSerializer(serializers.ModelSerializer):
         model = Price
         fields = ['tables', 'working_times', 'price_from', 'price_to', 'value']
 
+class PromotionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Promotion
+        fields = ['name', 'type', 'customer_categories', 'is_active', 'is_perpetual', 'time_from', 'time_to', 'discount']
+
 class ClubSerializer(serializers.ModelSerializer):
     city = CitySerializer(read_only=True)
     photos = PhotoSerializer(many=True, read_only=True)
@@ -57,9 +62,10 @@ class ClubSerializer(serializers.ModelSerializer):
     social_networks = SocialNetworkSerializer(many=True, read_only=True)
     halls = HallSerializer(many=True, read_only=True)
     prices = PriceSerializer(many=True, read_only=True)
+    promotions = PromotionSerializer(many=True, read_only=True)
     class Meta:
         model = Club
-        fields = ['id', 'slug', 'district', 'city', 'name', 'address', 'photos', 'website', 'working_times', 'social_networks', 'phone', 'wardrobe', 'wc', 'air_conditioning', 'wifi', 'barroom', 'vip_hall', 'smoking_room', 'kitchen', 'sports_broadcasts', 'halls', 'prices', 'payment_methods', 'table_reservation']
+        fields = ['id', 'slug', 'district', 'city', 'name', 'address', 'photos', 'website', 'working_times', 'social_networks', 'phone', 'wardrobe', 'wc', 'air_conditioning', 'wifi', 'barroom', 'vip_hall', 'smoking_room', 'kitchen', 'sports_broadcasts', 'halls', 'prices', 'payment_methods', 'table_reservation', 'promotions']
 
 class ClubCardSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(many=True, read_only=True)
