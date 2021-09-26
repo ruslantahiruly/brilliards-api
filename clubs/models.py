@@ -321,7 +321,7 @@ class Promotion(models.Model):
         (STUDENT, 'Студент'),
         (BIRTHDAY, 'Именинник'),
     )
-    club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), null=True, blank=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), null=True, blank=True, related_name='promotions')
     tables = models.ManyToManyField(Table, verbose_name=_('tables'))
     name = models.CharField(_('promotion'), max_length=50)
     type = models.CharField(_('type'), max_length=5, choices=TYPE_CHOICES, default=DISCOUNT)
