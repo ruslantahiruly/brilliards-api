@@ -249,11 +249,39 @@ class Table(models.Model):
         (NINE, '9 футов'),
         (EIGHT, '8 футов'),
     )
+    START = 'ST'
+    RUPTUR = 'RP'
+    ARSENAL = 'AR'
+    IGRA = 'IR'
+    DYNAMIC = 'DN'
+    BRUNSWICK = 'BR'
+    OTHER = 'OT'
+    BRAND_CHOICES = (
+        (START, 'Фабрика "Старт"'),
+        (RUPTUR, 'РуптуР'),
+        (ARSENAL, 'Брянская бильярдная фабрик "Арсенал"'),
+        (IGRA, 'Московская бильярдная фабрика "Игра"'),
+        (DYNAMIC, 'Dynamic'),
+        (BRUNSWICK, 'Brunswick'),
+        (OTHER, 'Другой'), 
+    )
+    MANCHESTER = 'MN'
+    GALAXY = 'GL'
+    IWAN_SIMONIS = 'IW'
+    MILLIKEN = 'ML'
+    CLOTH_CHOICES = (
+        (MANCHESTER, 'Manchester'),
+        (GALAXY, 'Galaxy'),
+        (IWAN_SIMONIS, 'Iwan Simonis'),
+        (MILLIKEN, 'Milliken'),
+    )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'))
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, verbose_name=_('hall'))
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name=_('game'), related_name='tables')
     name = models.CharField(_('table number'), max_length=5)
     size = models.CharField(_('size'), max_length=5, choices=SIZE_CHOICES, blank=True)
+    brand = models.CharField(_('brand'), max_length=5, choices=BRAND_CHOICES, blank=True)
+    cloth = models.CharField(_('cloth'), max_length=5, choices=CLOTH_CHOICES, blank=True)
     description = models.CharField(_('description'), max_length=50, blank=True)
     is_available_for_booking = models.BooleanField(_('table is available for booking'), default=True)
     booking_duration = models.PositiveSmallIntegerField(_('duration of booking'), default=2)

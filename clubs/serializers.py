@@ -51,10 +51,9 @@ class PriceSerializer(serializers.ModelSerializer):
         fields = ['tables', 'working_times', 'price_from', 'price_to', 'value']
 
 class PromotionSerializer(serializers.ModelSerializer):
-    tables = TableSerializer(many=True)
     class Meta:
         model = Promotion
-        fields = ['tables', 'name', 'type', 'customer_categories', 'is_active', 'is_perpetual', 'time_from', 'time_to', 'discount']
+        fields = ['name', 'type', 'customer_categories', 'is_active', 'is_perpetual', 'time_from', 'time_to', 'discount']
 
 class ClubSerializer(serializers.ModelSerializer):
     city = CitySerializer(read_only=True)
