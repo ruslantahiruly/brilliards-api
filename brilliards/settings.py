@@ -90,8 +90,8 @@ WSGI_APPLICATION = 'brilliards.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'brilliards',
-        'USER': 'admin',
+        'NAME': config('NAME'),
+        'USER': config('USER'),
         'PASSWORD': '1XhU*3kACPylrLw%gK',
         'HOST': 'localhost',
         'PORT': '5432',
