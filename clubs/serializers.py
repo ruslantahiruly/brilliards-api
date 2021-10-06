@@ -9,24 +9,36 @@ class CitySerializer(serializers.ModelSerializer):
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
-        fields = ['file']
+        fields = ['id', 'file']
 
 class WorkingTimeSerializer(serializers.ModelSerializer):
     opening_time = serializers.TimeField(format='%H:%M')
     closing_time = serializers.TimeField(format='%H:%M')
     class Meta:
         model = WorkingTime
-        fields = ['name', 'opening_time', 'closing_time']
+        fields = ['id', 'name', 'opening_time', 'closing_time']
 
 class SocialNetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialNetwork
-        fields = ['name', 'address']
+        fields = ['id', 'name', 'address']
 
 class TableSerializer(serializers.ModelSerializer):
+    brand = serializers.CharField (
+        source='get_brand_display'
+    )
+    cloth = serializers.CharField (
+        source='get_cloth_display'
+    )
+    cues = serializers.CharField (
+        source='get_cues_display'
+    )
+    balls = serializers.CharField (
+        source='get_balls_display'
+    )
     class Meta:
         model = Table
-        fields = ['size']
+        fields = ['id', 'size', 'brand', 'cloth', 'balls', 'cues']
 
 class GameSerializer(serializers.ModelSerializer):
     tables = TableSerializer(many=True, read_only=True)
@@ -35,25 +47,33 @@ class GameSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Game
-        fields = ['name', 'tables', 'hall']
+        fields = ['id', 'name', 'tables', 'hall']
 
 class HallSerializer(serializers.ModelSerializer):
     games = GameSerializer(many=True, read_only=True)
     class Meta:
         model = Hall
-        fields = ['name', 'games']
+        fields = ['id', 'name', 'games']
 
 class PriceSerializer(serializers.ModelSerializer):
     working_times = WorkingTimeSerializer(many=True)
     tables = TableSerializer(many=True)
     class Meta:
         model = Price
-        fields = ['tables', 'working_times', 'price_from', 'price_to', 'value']
+        fields = ['id', 'tables', 'working_times', 'price_from', 'price_to', 'value']
 
 class PromotionSerializer(serializers.ModelSerializer):
+    customer_categories = serializers.CharField (
+        source='get_customer_categories_display'
+    )
+    days_of_the_week = serializers.CharField (
+        source='get_days_of_the_week_display'
+    )
+    time_from = serializers.TimeField(format='%H:%M')
+    time_to = serializers.TimeField(format='%H:%M')
     class Meta:
         model = Promotion
-        fields = ['name', 'type', 'customer_categories', 'is_active', 'is_perpetual', 'time_from', 'time_to', 'discount']
+        fields = ['id', 'name', 'type', 'customer_categories', 'is_active', 'is_perpetual', 'time_from', 'time_to', 'discount', 'days_of_the_week']
 
 class ClubSerializer(serializers.ModelSerializer):
     city = CitySerializer(read_only=True)
@@ -63,6 +83,9 @@ class ClubSerializer(serializers.ModelSerializer):
     halls = HallSerializer(many=True, read_only=True)
     prices = PriceSerializer(many=True, read_only=True)
     promotions = PromotionSerializer(many=True, read_only=True)
+    payment_methods = serializers.CharField (
+        source='get_payment_methods_display'
+    )
     class Meta:
         model = Club
         fields = ['id', 'slug', 'district', 'city', 'name', 'address', 'photos', 'website', 'working_times', 'social_networks', 'phone', 'wardrobe', 'wc', 'air_conditioning', 'wifi', 'barroom', 'vip_hall', 'smoking_room', 'kitchen', 'sports_broadcasts', 'halls', 'prices', 'payment_methods', 'table_reservation', 'promotions']

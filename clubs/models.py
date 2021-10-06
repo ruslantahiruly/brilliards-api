@@ -47,14 +47,14 @@ def club_code_number_generator(instance):
 
 class Club(models.Model):
     CASH = 'CS'
-    VISA = 'VS'
-    MASTERCARD = 'MC'
-    MIR = 'MR'
+    CARD = 'VS'
+    # MASTERCARD = 'MC'
+    # MIR = 'MR'
     PAYMENT_METHODS_CHOICES = (
-        (CASH, 'Наличный расчет'),
-        (VISA, 'VISA'),
-        (MASTERCARD, 'MasterCard'),
-        (MIR, 'МИР'),
+        (CASH, 'Наличные'),
+        (CARD, 'Карты'),
+        # (MASTERCARD, 'MasterCard'),
+        # (MIR, 'МИР'),
     )
     COMMERCIAL = 'CM'
     COMMERCIAL_SPORTS = 'CS'
@@ -275,6 +275,14 @@ class Table(models.Model):
         (IWAN_SIMONIS, 'Iwan Simonis'),
         (MILLIKEN, 'Milliken'),
     )
+    CUETEC = 'CT'
+    CUES_CHOICES = (
+        (CUETEC, 'Cuetec'),
+    )
+    ARAMITH = 'AR'
+    BALLS_CHOICES = (
+        (ARAMITH, 'Aramith'),
+    )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'))
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, verbose_name=_('hall'))
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name=_('game'), related_name='tables')
@@ -282,6 +290,8 @@ class Table(models.Model):
     size = models.CharField(_('size'), max_length=5, choices=SIZE_CHOICES, blank=True)
     brand = models.CharField(_('brand'), max_length=5, choices=BRAND_CHOICES, blank=True)
     cloth = models.CharField(_('cloth'), max_length=5, choices=CLOTH_CHOICES, blank=True)
+    cues = models.CharField(_('cues'), max_length=5, choices=CUES_CHOICES, blank=True)
+    balls = models.CharField(_('balls'), max_length=5, choices=BALLS_CHOICES, blank=True)
     description = models.CharField(_('description'), max_length=50, blank=True)
     is_available_for_booking = models.BooleanField(_('table is available for booking'), default=True)
     booking_duration = models.PositiveSmallIntegerField(_('duration of booking'), default=2)
@@ -329,13 +339,13 @@ class Promotion(models.Model):
     SATURDAY = 'SA'
     SUNDAY = 'SU'
     DAYS_OF_THE_WEEK_CHOICES = (
-        (MONDAY, 'понедельник'),
-        (TUESDAY, 'вторник'),
-        (WEDNESDAY, 'среда'),
-        (THURSDAY, 'четверг'),
-        (FRIDAY, 'пятница'),
-        (SATURDAY, 'суббота'),
-        (SUNDAY, 'воскресенье'),
+        (MONDAY, 'Понедельник'),
+        (TUESDAY, 'Вторник'),
+        (WEDNESDAY, 'Среда'),
+        (THURSDAY, 'Четверг'),
+        (FRIDAY, 'Пятница'),
+        (SATURDAY, 'Суббота'),
+        (SUNDAY, 'Воскресенье'),
     )
     ALL = 'AL'
     RETIREE = 'RT'
@@ -343,11 +353,11 @@ class Promotion(models.Model):
     STUDENT = 'ST'
     BIRTHDAY = 'BD'
     CUSTOMER_CATEGORIES_CHOICES = (
-        (ALL, 'Все'),
-        (RETIREE, 'Пенсионер'),
-        (PUPIL, 'Школьник'),
-        (STUDENT, 'Студент'),
-        (BIRTHDAY, 'Именинник'),
+        (ALL, 'Всем'),
+        (RETIREE, 'Пенсионерам'),
+        (PUPIL, 'Школьникам'),
+        (STUDENT, 'Студентам'),
+        (BIRTHDAY, 'Именинникам'),
     )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), null=True, blank=True, related_name='promotions')
     tables = models.ManyToManyField(Table, verbose_name=_('tables'))
