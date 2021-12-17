@@ -36,9 +36,10 @@ class TableSerializer(serializers.ModelSerializer):
     balls = serializers.CharField (
         source='get_balls_display'
     )
+    game = serializers.StringRelatedField()
     class Meta:
         model = Table
-        fields = ['id', 'size', 'brand', 'cloth', 'balls', 'cues']
+        fields = ['id', 'game', 'size', 'brand', 'cloth', 'balls', 'cues']
 
 class GameSerializer(serializers.ModelSerializer):
     tables = TableSerializer(many=True, read_only=True)
@@ -58,6 +59,9 @@ class HallSerializer(serializers.ModelSerializer):
 class PriceSerializer(serializers.ModelSerializer):
     working_times = WorkingTimeSerializer(many=True)
     tables = TableSerializer(many=True)
+    price_from = serializers.TimeField(format='%H:%M')
+    price_to = serializers.TimeField(format='%H:%M')
+    value = serializers.DecimalField(max_digits=5, decimal_places=0)
     class Meta:
         model = Price
         fields = ['id', 'tables', 'working_times', 'price_from', 'price_to', 'value']
@@ -68,6 +72,9 @@ class PromotionSerializer(serializers.ModelSerializer):
     )
     days_of_the_week = serializers.CharField (
         source='get_days_of_the_week_display'
+    )
+    type = serializers.CharField (
+        source='get_type_display'
     )
     time_from = serializers.TimeField(format='%H:%M')
     time_to = serializers.TimeField(format='%H:%M')
@@ -88,7 +95,7 @@ class ClubSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Club
-        fields = ['id', 'slug', 'district', 'city', 'name', 'address', 'photos', 'website', 'working_times', 'social_networks', 'phone', 'wardrobe', 'wc', 'air_conditioning', 'wifi', 'barroom', 'vip_hall', 'smoking_room', 'kitchen', 'sports_broadcasts', 'halls', 'prices', 'payment_methods', 'table_reservation', 'promotions']
+        fields = ['id', 'slug', 'district', 'city', 'name', 'address', 'photos', 'website', 'working_times', 'social_networks', 'phone', 'wardrobe', 'wc', 'air_conditioning', 'wifi', 'barroom', 'vip_hall', 'smoking_room', 'kitchen', 'sports_broadcasts', 'halls', 'prices', 'payment_methods', 'table_reservation', 'promotions', 'is_open']
 
 class ClubCardSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(many=True, read_only=True)

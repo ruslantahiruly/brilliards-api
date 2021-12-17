@@ -72,6 +72,7 @@ class Club(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name=_('city'))
     name = models.CharField(_('name'), max_length=50)
     code_number = models.PositiveIntegerField(_('club number'), default=0)
+    time_zone = models.DecimalField('time zone', max_digits=2, decimal_places=1, default=0)
     slug = models.SlugField(_('slug'), max_length=50, db_index=True)
     district = models.CharField(_('district'), max_length=50, blank=True)
     metro = models.CharField(_('metro'), max_length=50, blank=True)
@@ -87,6 +88,8 @@ class Club(models.Model):
     school = models.BooleanField(_('school'), default=False)
     tournaments = models.BooleanField(_('tournaments'), default=False)
     # shop = models.BooleanField(_('shop'), default=False)
+    is_pre_entry = models.BooleanField(_('entrance by appointment'), default=False)
+    is_medical_masks = models.BooleanField(_('вход только в медицинских масках'), default=False)
     is_active = models.BooleanField(_('club is active'), default=False)
     is_open = models.BooleanField(_('club is open'), default=True)
     is_verified = models.BooleanField(_('club is verified'), default=False)
@@ -123,6 +126,7 @@ class SocialNetwork(models.Model):
     TELEGRAM = 'TM'
     INSTAGRAM = 'IN'
     YOUTUBE = 'UT'
+    TIKTOK = 'TT'
     NAME_CHOICES = (
         (VK, 'Вконтакте'),
         (OK, 'Одноклассники'),
@@ -131,6 +135,7 @@ class SocialNetwork(models.Model):
         (TELEGRAM, 'Telegram'),
         (INSTAGRAM, 'Instagram'),
         (YOUTUBE, 'YouTube'),
+        (TIKTOK, 'Tiktok'),
     )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), related_name='social_networks')
     name = models.CharField(_('name'), max_length=5, choices=NAME_CHOICES)
@@ -326,9 +331,11 @@ class Price(models.Model):
 
 class Promotion(models.Model):
     DISCOUNT = 'DC'
+    CERTIFICATE = 'CR'
     OTHER = 'OT'
     TYPE_CHOICES = (
         (DISCOUNT, 'Скидка'),
+        (CERTIFICATE, 'Подарочный сертификат'),
         (OTHER, 'Остальные'),
     )
     MONDAY = 'MO'
@@ -352,12 +359,14 @@ class Promotion(models.Model):
     PUPIL = 'PP'
     STUDENT = 'ST'
     BIRTHDAY = 'BD'
+    REG_CUSTOMER = 'RC'
     CUSTOMER_CATEGORIES_CHOICES = (
         (ALL, 'Всем'),
         (RETIREE, 'Пенсионерам'),
         (PUPIL, 'Школьникам'),
         (STUDENT, 'Студентам'),
         (BIRTHDAY, 'Именинникам'),
+        (REG_CUSTOMER, 'Постоянным клиентам'),
     )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), null=True, blank=True, related_name='promotions')
     tables = models.ManyToManyField(Table, verbose_name=_('tables'))
