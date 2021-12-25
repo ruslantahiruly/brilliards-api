@@ -56,6 +56,9 @@ class GameSerializer(serializers.ModelSerializer):
 
 class HallSerializer(serializers.ModelSerializer):
     games = GameSerializer(many=True, read_only=True)
+    type = serializers.CharField (
+        source='get_type_display'
+    )
     class Meta:
         model = Hall
         fields = ['id', 'name', 'type', 'games']
