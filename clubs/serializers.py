@@ -37,9 +37,13 @@ class TableSerializer(serializers.ModelSerializer):
         source='get_balls_display'
     )
     game = serializers.StringRelatedField()
+    hall = serializers.StringRelatedField()
+    type = serializers.CharField (
+        source='get_type_display'
+    )
     class Meta:
         model = Table
-        fields = ['id', 'game', 'size', 'brand', 'cloth', 'balls', 'cues']
+        fields = ['id', 'game', 'hall', 'size', 'brand', 'cloth', 'balls', 'cues', 'type']
 
 class GameSerializer(serializers.ModelSerializer):
     tables = TableSerializer(many=True, read_only=True)
@@ -54,7 +58,7 @@ class HallSerializer(serializers.ModelSerializer):
     games = GameSerializer(many=True, read_only=True)
     class Meta:
         model = Hall
-        fields = ['id', 'name', 'games']
+        fields = ['id', 'name', 'type', 'games']
 
 class PriceSerializer(serializers.ModelSerializer):
     working_times = WorkingTimeSerializer(many=True)

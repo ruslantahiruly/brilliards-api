@@ -202,15 +202,22 @@ class WorkingTime(models.Model):
         verbose_name_plural = _('working time')
 
 class Hall(models.Model):
+    COMMON = 'CM'
+    VIP = 'VP'
+    TYPE_CHOICES = (
+        (COMMON, 'Общий'),
+        (VIP, 'VIP'),
+    )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), related_name='halls')
-    name = models.CharField(_('hall'), max_length=50)
+    name = models.CharField(_('hall'), max_length=50, blank=True)
+    type = models.CharField(_('type'), max_length=5, choices=TYPE_CHOICES, default=COMMON)
     is_available_for_booking = models.BooleanField(_('hall is available for booking'), default=True)
     booking_duration = models.PositiveSmallIntegerField(_('duration of booking'), default=2)
     booking_days_in_advance = models.PositiveSmallIntegerField('количество дней вперед для бронирования', default=7)
     booking_hours_before = models.PositiveSmallIntegerField('количество часов до бронирования', default=1)
     booking_step = models.TimeField('шаг брони', default='00:30')
     def __str__(self):
-        return self.name
+        return self.type
 
 class Game(models.Model):
     RUSSIAN = 'RS'
@@ -288,10 +295,21 @@ class Table(models.Model):
     BALLS_CHOICES = (
         (ARAMITH, 'Aramith'),
     )
+    REGULAR = 'RG'
+    HEATED = 'HT'
+    DOUBLE_ILLUMINATION = 'DI'
+    CORNER = 'CN'
+    TYPE_CHOICES = (
+        (REGULAR, 'Обычный стол'),
+        (HEATED, 'Стол с подогревом'),
+        (DOUBLE_ILLUMINATION, 'Стол с двойным освещением'),
+        (CORNER, 'Угловой стол'),
+    )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'))
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, verbose_name=_('hall'))
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name=_('game'), related_name='tables')
     name = models.CharField(_('table number'), max_length=5)
+    type = MultiSelectField(_('type'), max_length=50, choices=TYPE_CHOICES, default=REGULAR)
     size = models.CharField(_('size'), max_length=5, choices=SIZE_CHOICES, blank=True)
     brand = models.CharField(_('brand'), max_length=5, choices=BRAND_CHOICES, blank=True)
     cloth = models.CharField(_('cloth'), max_length=5, choices=CLOTH_CHOICES, blank=True)
