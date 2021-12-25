@@ -217,7 +217,7 @@ class Hall(models.Model):
     booking_hours_before = models.PositiveSmallIntegerField('количество часов до бронирования', default=1)
     booking_step = models.TimeField('шаг брони', default='00:30')
     def __str__(self):
-        return self.type
+        return self.get_type_display()
 
 class Game(models.Model):
     RUSSIAN = 'RS'
