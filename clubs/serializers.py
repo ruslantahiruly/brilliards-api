@@ -23,6 +23,14 @@ class SocialNetworkSerializer(serializers.ModelSerializer):
         model = SocialNetwork
         fields = ['id', 'name', 'address']
 
+class HallSerializer0(serializers.ModelSerializer):
+    type = serializers.CharField (
+        source='get_type_display'
+    )
+    class Meta:
+        model = Hall
+        fields = ['id', 'name', 'type',]
+
 class TableSerializer(serializers.ModelSerializer):
     brand = serializers.CharField (
         source='get_brand_display'
@@ -37,7 +45,7 @@ class TableSerializer(serializers.ModelSerializer):
         source='get_balls_display'
     )
     game = serializers.StringRelatedField()
-    hall = serializers.StringRelatedField()
+    hall = HallSerializer0(read_only=True)
     type = serializers.CharField (
         source='get_type_display'
     )
