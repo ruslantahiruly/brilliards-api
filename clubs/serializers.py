@@ -110,7 +110,7 @@ class ClubSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Club
-        fields = ['id', 'slug', 'district', 'city', 'name', 'address', 'photos', 'website', 'working_times', 'social_networks', 'phone', 'wardrobe', 'wc', 'air_conditioning', 'wifi', 'barroom', 'vip_hall', 'smoking_room', 'kitchen', 'sports_broadcasts', 'halls', 'prices', 'payment_methods', 'table_reservation', 'promotions', 'is_open', 'time_zone', 'is_pre_entry', 'is_medical_masks', 'works_since']
+        fields = ['id', 'slug', 'district', 'city', 'name', 'address', 'photos', 'website', 'working_times', 'social_networks', 'phone', 'wardrobe', 'wc', 'air_conditioning', 'wifi', 'barroom', 'vip_hall', 'smoking_room', 'kitchen', 'sports_broadcasts', 'halls', 'prices', 'payment_methods', 'table_reservation', 'promotions', 'is_open', 'time_zone', 'is_pre_entry', 'is_medical_masks', 'works_since', 'is_qr_code', 'floor']
 
 class ClubCardSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(many=True, read_only=True)
