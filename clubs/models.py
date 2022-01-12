@@ -88,7 +88,9 @@ class Club(models.Model):
     payment_methods = MultiSelectField(_('payment methods'), max_length=50, choices=PAYMENT_METHODS_CHOICES, default=CASH)
     school = models.BooleanField(_('school'), default=False)
     tournaments = models.BooleanField(_('tournaments'), default=False)
-    # shop = models.BooleanField(_('shop'), default=False)
+    shop = models.BooleanField(_('shop'), default=False)
+    repair = models.BooleanField(_('мастерская'), default=False)
+    cues_lockers = models.PositiveSmallIntegerField(_('шкафчики для киев'), default=0)
     is_pre_entry = models.BooleanField(_('entrance by appointment'), default=False)
     is_medical_masks = models.BooleanField(_('entrance only with medical masks'), default=False)
     is_qr_code = models.BooleanField(_('entrance by QR code'), default=False)
@@ -366,13 +368,13 @@ class Promotion(models.Model):
     SATURDAY = 'SA'
     SUNDAY = 'SU'
     DAYS_OF_THE_WEEK_CHOICES = (
-        (MONDAY, 'Понедельник'),
-        (TUESDAY, 'Вторник'),
-        (WEDNESDAY, 'Среда'),
-        (THURSDAY, 'Четверг'),
-        (FRIDAY, 'Пятница'),
-        (SATURDAY, 'Суббота'),
-        (SUNDAY, 'Воскресенье'),
+        (MONDAY, 'Пн'),
+        (TUESDAY, 'Вт'),
+        (WEDNESDAY, 'Ср'),
+        (THURSDAY, 'Чт'),
+        (FRIDAY, 'Пт'),
+        (SATURDAY, 'Сб'),
+        (SUNDAY, 'Вс'),
     )
     ALL = 'AL'
     RETIREE = 'RT'
