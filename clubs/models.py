@@ -77,6 +77,7 @@ class Club(models.Model):
     district = models.CharField(_('district'), max_length=50, blank=True)
     metro = models.CharField(_('metro'), max_length=50, blank=True)
     address = models.CharField(_('address'), max_length=100)
+    house = models.CharField(_('находится в здании'), max_length=50, blank=True)
     entrance = models.CharField(_('вход'), max_length=100, blank=True)
     floor = models.CharField(_('floor'), max_length=50, blank=True)
     phone = models.CharField(_('phone'), max_length=50)
