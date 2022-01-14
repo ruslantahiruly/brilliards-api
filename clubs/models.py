@@ -87,6 +87,8 @@ class Club(models.Model):
     works_since = models.CharField(_('works since'), max_length=50, blank=True)
     website = models.URLField(_('website'), blank=True)
     payment_methods = MultiSelectField(_('payment methods'), max_length=50, choices=PAYMENT_METHODS_CHOICES, default=CASH)
+    billing = models.BooleanField(_('почасовая тарификация'), default=False)
+    discount_cards = models.BooleanField(_('дисконтные карты'), default=False)
     school = models.BooleanField(_('school'), default=False)
     tournaments = models.BooleanField(_('tournaments'), default=False)
     shop = models.BooleanField(_('shop'), default=False)
@@ -314,6 +316,7 @@ class Table(models.Model):
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, verbose_name=_('hall'))
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name=_('game'), related_name='tables')
     name = models.CharField(_('table number'), max_length=5)
+    quantity = models.PositiveSmallIntegerField('количество', default=1)
     type = MultiSelectField(_('type'), max_length=50, choices=TYPE_CHOICES, default=REGULAR)
     size = models.CharField(_('size'), max_length=5, choices=SIZE_CHOICES, blank=True)
     brand = models.CharField(_('brand'), max_length=5, choices=BRAND_CHOICES, blank=True)
@@ -383,6 +386,7 @@ class Promotion(models.Model):
     STUDENT = 'ST'
     BIRTHDAY = 'BD'
     REG_CUSTOMER = 'RC'
+    SUBSCRIBER = 'SB'
     CUSTOMER_CATEGORIES_CHOICES = (
         (ALL, 'Всем'),
         (RETIREE, 'Пенсионерам'),
@@ -390,6 +394,7 @@ class Promotion(models.Model):
         (STUDENT, 'Студентам'),
         (BIRTHDAY, 'Именинникам'),
         (REG_CUSTOMER, 'Постоянным клиентам'),
+        (SUBSCRIBER, 'Подписчикам'),
     )
     club = models.ForeignKey(Club, on_delete=models.CASCADE, verbose_name=_('club'), null=True, blank=True, related_name='promotions')
     tables = models.ManyToManyField(Table, verbose_name=_('tables'))
