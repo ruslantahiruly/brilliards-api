@@ -20,8 +20,10 @@ from . import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from decouple import config
+
 urlpatterns = [
-    path('admin58374/', admin.site.urls),
+    path(config('ADMIN'), admin.site.urls),
     path('', include('clubs.urls')),
 ]
 
